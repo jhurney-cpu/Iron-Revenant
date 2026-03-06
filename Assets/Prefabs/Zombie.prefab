@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1908361104417323016
+--- !u!1 &8983907826825666774
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3352460652522475928}
-  - component: {fileID: 5318264309023855423}
-  - component: {fileID: 3256867658556800142}
-  - component: {fileID: 567569941230996146}
-  - component: {fileID: 321566902381001576}
-  - component: {fileID: 5832129891018654989}
+  - component: {fileID: 445879818418631061}
+  - component: {fileID: 821013471661137869}
+  - component: {fileID: 590035186631566954}
+  - component: {fileID: 7311026520532271862}
+  - component: {fileID: 162012312324810701}
+  - component: {fileID: 4084497220796863332}
+  - component: {fileID: 768840429208341228}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3352460652522475928
+--- !u!4 &445879818418631061
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908361104417323016}
+  m_GameObject: {fileID: 8983907826825666774}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1046.712, y: 361.378, z: -977.493}
-  m_LocalScale: {x: 0.028923055, y: 0.0469558, z: 0.033190716}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1029.3048, y: 359.7, z: -990.9618}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!33 &5318264309023855423
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &821013471661137869
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908361104417323016}
+  m_GameObject: {fileID: 8983907826825666774}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &3256867658556800142
+--- !u!23 &590035186631566954
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908361104417323016}
+  m_GameObject: {fileID: 8983907826825666774}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -67,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2801d9e955d8f98408d98c0f04c01f08, type: 2}
+  - {fileID: 2100000, guid: 2ced4eb33d0d13d4daf15304d4100db8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,13 +90,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &567569941230996146
+--- !u!136 &7311026520532271862
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908361104417323016}
+  m_GameObject: {fileID: 8983907826825666774}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -112,17 +113,17 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &321566902381001576
+--- !u!54 &162012312324810701
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908361104417323016}
+  m_GameObject: {fileID: 8983907826825666774}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -138,17 +139,31 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
---- !u!114 &5832129891018654989
+  m_CollisionDetection: 0
+--- !u!114 &4084497220796863332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908361104417323016}
+  m_GameObject: {fileID: 8983907826825666774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5fb9575d3bb23e4a8d5e9396076a14e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ae6c4676dd1bd94584cbb52b5c7983d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 25
+  player: {fileID: 0}
+  moveSpeed: 2
+--- !u!114 &768840429208341228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8983907826825666774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 566b58b225cdeaf4cb73e64b2211ef04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombieMaxHealth: 100
