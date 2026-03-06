@@ -5,24 +5,22 @@ public class GunShoot : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform firePoint;
-    public float bulletSpeed = 2f;
+    public float bulletSpeed = 50f;
+
+    [Header("Muzzle Flash")]
+    public GameObject muzzleFlashPrefab;   // drag your muzzle flash prefab here
 
     private InputAction shootAction;
 
     private void OnEnable()
     {
         shootAction = InputSystem.actions.FindAction("Fire");
-
-        if (shootAction != null)
-            shootAction.Enable();
-        else
-            Debug.LogError("Fire action not found! Make sure it's named 'Fire'.");
+        shootAction?.Enable();
     }
 
     private void OnDisable()
     {
-        if (shootAction != null)
-            shootAction.Disable();
+        shootAction?.Disable();
     }
 
     private void Update()
@@ -35,12 +33,17 @@ public class GunShoot : MonoBehaviour
 
     void Shoot()
     {
+        // Spawn bullet
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        bullet.transform.Rotate(90f, 0f, 0f); // adjust this until it looks right
-
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.linearVelocity = firePoint.forward * bulletSpeed;
+        Destroy(bullet, 3f);
 
-        Destroy(bullet, 3f); // auto-cleanup
+        // Spawn muzzle flash
+        if (muzzleFlashPrefab != null)
+        {
+            GameObject flash = Instantiate(muzzleFlashPrefab, firePoint.position, firePoint.rotation);
+            Destroy(flash, 0.1f); // muzzle flash is very quick
+        }
     }
 }
