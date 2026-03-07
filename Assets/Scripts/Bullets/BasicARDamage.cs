@@ -15,4 +15,15 @@ public class BulletDamage : MonoBehaviour
 
         Destroy(gameObject);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        ZombieHealth enemy = other.GetComponent<ZombieHealth>();
+
+        if (enemy != null)
+        {
+            enemy.TakeDamage(damage);
+        }
+
+        Destroy(gameObject);
+    }
 }
