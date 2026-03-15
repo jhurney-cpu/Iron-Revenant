@@ -5,7 +5,7 @@ public class PlayerLook : MonoBehaviour
 {
     [Header("References")]
     public Transform cameraTransform;
-    public Transform playerBody;   // NEW: rotate this for horizontal look
+    public Transform playerBody;
 
     [Header("Sensitivity")]
     public float sensitivityX = 1f;
@@ -20,6 +20,12 @@ public class PlayerLook : MonoBehaviour
 
     private InputAction lookAction;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     private void OnEnable()
     {
         lookAction = InputSystem.actions.FindAction("Look");
@@ -33,7 +39,6 @@ public class PlayerLook : MonoBehaviour
 
     private void Update()
     {
-        // Read input ONLY
         lookInput = lookAction.ReadValue<Vector2>();
     }
 
