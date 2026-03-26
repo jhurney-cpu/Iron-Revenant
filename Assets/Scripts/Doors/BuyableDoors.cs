@@ -1,16 +1,42 @@
+/*****************************************************************************
+* File Name      : BuyableDoor.cs
+* Author         : Noah Hurney
+* Creation Date  : February 23, 2026
+* Last Updated   : March 26, 2026
+* Brief Description : Handles player interaction with buyable doors, deducting
+*                     points, disabling the door, activating new zones, and
+*                     managing UI prompts.
+*****************************************************************************/
+
 using UnityEngine;
 
 public class BuyableDoor : MonoBehaviour
 {
+
+
     public int cost = 500;
     public GameObject doorObject;
-
-    [Header("Zone To Activate")]
     public SpawnerZone zoneToActivate;
 
+
+
+    /// <summary>
+    /// Tracks whether the player is within the interaction trigger.
+    /// </summary>
     private bool playerInRange = false;
+
+    /// <summary>
+    /// Reference to the player's movement script for input detection.
+    /// </summary>
     private PlayerMovement playerMovement;
 
+
+
+    /// <summary>
+    /// Detects when the player enters the door's trigger zone and displays the
+    /// interaction UI prompt.
+    /// </summary>
+    /// <param name="other">Collider entering the trigger.</param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -22,6 +48,11 @@ public class BuyableDoor : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Detects when the player leaves the door's trigger zone and hides the
+    /// interaction UI prompt.
+    /// </summary>
+    /// <param name="other">Collider exiting the trigger.</param>
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -33,6 +64,9 @@ public class BuyableDoor : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks for player input while in range to attempt purchasing the door.
+    /// </summary>
     private void Update()
     {
         if (playerInRange && playerMovement != null && playerMovement.InteractPressed())
@@ -41,13 +75,19 @@ public class BuyableDoor : MonoBehaviour
         }
     }
 
+
+
+    /// <summary>
+    /// Attempts to purchase the door. Deducts points, disables the door,
+    /// activates the next zone, hides UI, and disables the trigger.
+    /// </summary>
     private void TryBuyDoor()
     {
         if (ScoreManager.instance.score >= cost)
         {
             // Deduct points
             ScoreManager.instance.score -= cost;
-            ScoreManager.instance.AddPoints(0);
+            ScoreManager.instance.AddPoints(0); // Forces UI refresh
 
             // Disable the door mesh
             if (doorObject != null)
@@ -57,11 +97,9 @@ public class BuyableDoor : MonoBehaviour
             if (zoneToActivate != null)
                 zoneToActivate.isActive = true;
 
-            // Force-hide UI
+            // Hide UI and disable trigger
             playerInRange = false;
             InteractUI.instance.Hide();
-
-            // Disable the trigger object itself
             gameObject.SetActive(false);
         }
         else

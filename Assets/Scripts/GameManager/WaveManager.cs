@@ -1,4 +1,13 @@
-﻿using UnityEngine;
+﻿/*****************************************************************************
+* File Name      : WaveManager.cs
+* Author         : Noah Hurney
+* Creation Date  : March 1, 2026
+* Last Updated   : March 26, 2026
+* Brief Description : Manages wave progression, zombie spawning, intermissions,
+*                     and active spawner zone selection.
+*****************************************************************************/
+
+using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 
@@ -6,36 +15,40 @@ public class WaveManager : MonoBehaviour
 {
     public static WaveManager instance;
 
-    [Header("Wave Settings")]
     public int currentWave = 0;
     public int baseZombiesPerWave = 5;
     public float waveMultiplier = 1.3f;
     public float spawnDelay = 1f;
 
-    [Header("Intermission")]
     public float timeBetweenWaves = 5f;
     private bool isIntermission = false;
     private float intermissionTimer = 0f;
 
-    [Header("Zones")]
     public SpawnerZone[] zones;
-
-    [Header("UI")]
     public TextMeshProUGUI waveText;
 
     private int zombiesLeftToSpawn;
     private int zombiesAlive;
 
+    /// <summary>
+    /// Assigns the singleton instance.
+    /// </summary>
     private void Awake()
     {
         instance = this;
     }
 
+    /// <summary>
+    /// Begins the first wave when the scene starts.
+    /// </summary>
     private void Start()
     {
         StartNextWave();
     }
 
+    /// <summary>
+    /// Handles intermission countdown and triggers the next wave.
+    /// </summary>
     private void Update()
     {
         if (isIntermission)
@@ -53,6 +66,9 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Starts a new wave, calculates zombie count, and begins spawning.
+    /// </summary>
     private void StartNextWave()
     {
         currentWave++;
@@ -66,6 +82,9 @@ public class WaveManager : MonoBehaviour
         InvokeRepeating(nameof(SpawnZombie), 0f, spawnDelay);
     }
 
+    /// <summary>
+    /// Spawns a zombie from an active spawner zone.
+    /// </summary>
     private void SpawnZombie()
     {
         if (zombiesLeftToSpawn <= 0)
@@ -84,6 +103,10 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Selects a random spawner from the currently active zones.
+    /// </summary>
+    /// <returns>An EnemySpawner or null if none are active.</returns>
     private EnemySpawner GetActiveSpawner()
     {
         List<SpawnerZone> activeZones = new List<SpawnerZone>();
@@ -101,6 +124,9 @@ public class WaveManager : MonoBehaviour
         return zoneToUse.GetRandomSpawner();
     }
 
+    /// <summary>
+    /// Called when a zombie dies. Handles intermission logic.
+    /// </summary>
     public void ZombieDied()
     {
         zombiesAlive = Mathf.Max(0, zombiesAlive - 1);

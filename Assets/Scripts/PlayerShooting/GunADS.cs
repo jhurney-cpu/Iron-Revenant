@@ -1,39 +1,53 @@
+/*****************************************************************************
+* File Name      : GunADS.cs
+* Author         : Noah Hurney
+* Creation Date  : March 5, 2026
+* Last Updated   : March 26, 2026
+* Brief Description : Handles aiming down sights by smoothly transitioning the
+*                     weapon between hip and ADS positions, and toggling the
+*                     reticle.
+*****************************************************************************/
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GunADS : MonoBehaviour
 {
-    [Header("ADS Positions")]
     public Transform hipPosition;
     public Transform adsPosition;
     public float aimSpeed = 10f;
 
-    [Header("UI")]
-    public GameObject reticle;   // drag your reticle/dot here
+    public GameObject reticle;
 
     private InputAction aimAction;
     private bool isAiming = false;
 
+    /// <summary>
+    /// Enables the aim input action.
+    /// </summary>
     private void OnEnable()
     {
         aimAction = InputSystem.actions.FindAction("Aim");
         aimAction?.Enable();
     }
 
+    /// <summary>
+    /// Disables the aim input action.
+    /// </summary>
     private void OnDisable()
     {
         aimAction?.Disable();
     }
 
+    /// <summary>
+    /// Handles ADS logic and reticle visibility each frame.
+    /// </summary>
     private void Update()
     {
-        // Check if right-click is held
         isAiming = aimAction.IsPressed();
 
-        // Pick target position
         Transform target = isAiming ? adsPosition : hipPosition;
 
-        // Smoothly move gun in LOCAL space
         transform.localPosition = Vector3.Lerp(
             transform.localPosition,
             target.localPosition,
@@ -46,7 +60,6 @@ public class GunADS : MonoBehaviour
             Time.deltaTime * aimSpeed
         );
 
-        // Toggle reticle visibility
         if (reticle != null)
             reticle.SetActive(!isAiming);
     }
