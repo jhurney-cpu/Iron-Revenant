@@ -14,7 +14,8 @@ public class BuyableDoor : MonoBehaviour
         {
             playerInRange = true;
             playerMovement = other.GetComponent<PlayerMovement>();
-            Debug.Log("Press F to buy door for " + cost);
+
+            InteractUI.instance.Show($"Press F to Buy Door [{cost}]");
         }
     }
 
@@ -24,6 +25,8 @@ public class BuyableDoor : MonoBehaviour
         {
             playerInRange = false;
             playerMovement = null;
+
+            InteractUI.instance.Hide();
         }
     }
 
@@ -40,15 +43,15 @@ public class BuyableDoor : MonoBehaviour
         if (ScoreManager.instance.score >= cost)
         {
             ScoreManager.instance.score -= cost;
-            ScoreManager.instance.AddPoints(0); // refresh UI
+            ScoreManager.instance.AddPoints(0);
 
             doorObject.SetActive(false);
 
-            Debug.Log("Door purchased!");
+            InteractUI.instance.Hide();
         }
         else
         {
-            Debug.Log("Not enough points!");
+            InteractUI.instance.Show("Not enough points!");
         }
     }
 }

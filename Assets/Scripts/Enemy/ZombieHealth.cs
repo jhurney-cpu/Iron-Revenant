@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class ZombieHealth : MonoBehaviour
 {
-    public int pointsOnDeath = 50;
+    [Header("Health")]
     [SerializeField] float zombieMaxHealth = 100f;
     private float currentHealth;
+
+    [Header("Points")]
+    public int pointsOnDeath = 50;
 
     private void Start()
     {
@@ -15,18 +18,16 @@ public class ZombieHealth : MonoBehaviour
     {
         currentHealth -= amount;
 
-        if (currentHealth <= 0f)
+        if (currentHealth <= 0)
         {
             Die();
         }
     }
 
-    void Die()
+    private void Die()
     {
         ScoreManager.instance.AddPoints(pointsOnDeath);
-        Destroy(gameObject);
-
-        // Later: play animation, spawn particles, drop loot, etc.
+        WaveManager.instance.ZombieDied();
         Destroy(gameObject);
     }
 }

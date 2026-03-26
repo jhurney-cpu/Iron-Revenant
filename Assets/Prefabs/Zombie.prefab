@@ -155,7 +155,7 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
-  moveSpeed: 2
+  moveSpeed: 5
   rotationSpeed: 10
   waypointReachDistance: 0.5
 --- !u!114 &768840429208341228
@@ -170,5 +170,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566b58b225cdeaf4cb73e64b2211ef04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsOnDeath: 50
   zombieMaxHealth: 50
+  pointsOnDeath: 50
