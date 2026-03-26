@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class WaveManager : MonoBehaviour
 {
@@ -8,21 +9,23 @@ public class WaveManager : MonoBehaviour
     [Header("Wave Settings")]
     public int currentWave = 0;
     public int baseZombiesPerWave = 5;
-    public float waveMultiplier = 1.3f;   // COD-style scaling
+    public float waveMultiplier = 1.3f;
     public float spawnDelay = 1f;
 
-    [Header("Runtime")]
-    private int zombiesLeftToSpawn;
-    private int zombiesAlive;
+    [Header("Intermission")]
+    public float timeBetweenWaves = 5f;
+    private bool isIntermission = false;
+    private float intermissionTimer = 0f;
 
-    [Header("Spawners")]
-    public EnemySpawner[] spawners;
+    [Header("Zones")]
+    public SpawnerZone[] zones;
 
     [Header("UI")]
     public TextMeshProUGUI waveText;
 
-    [Header("Intermission")]
-    public float timeBetweenWaves = 7f;
+    private int zombiesLeftToSpawn;
+    private int zombiesAlive;
+
     private void Awake()
     {
         instance = this;
@@ -33,19 +36,33 @@ public class WaveManager : MonoBehaviour
         StartNextWave();
     }
 
+    private void Update()
+    {
+        if (isIntermission)
+        {
+            intermissionTimer -= Time.deltaTime;
+
+            if (waveText != null)
+                waveText.text = "Next Wave In: " + Mathf.Ceil(intermissionTimer);
+
+            if (intermissionTimer <= 0)
+            {
+                isIntermission = false;
+                StartNextWave();
+            }
+        }
+    }
+
     private void StartNextWave()
     {
         currentWave++;
 
-        // Calculate zombies for this wave
         zombiesLeftToSpawn = Mathf.RoundToInt(baseZombiesPerWave * Mathf.Pow(waveMultiplier, currentWave - 1));
         zombiesAlive = 0;
 
-        // Update UI
         if (waveText != null)
             waveText.text = " " + currentWave;
 
-        // Begin spawning
         InvokeRepeating(nameof(SpawnZombie), 0f, spawnDelay);
     }
 
@@ -57,14 +74,31 @@ public class WaveManager : MonoBehaviour
             return;
         }
 
-        // Pick a random spawner
-        EnemySpawner spawner = spawners[Random.Range(0, spawners.Length)];
+        EnemySpawner spawner = GetActiveSpawner();
 
-        // Spawn the zombie
-        spawner.SpawnEnemy();
+        if (spawner != null)
+        {
+            spawner.SpawnEnemy();
+            zombiesAlive++;
+            zombiesLeftToSpawn--;
+        }
+    }
 
-        zombiesLeftToSpawn--;
-        zombiesAlive++;
+    private EnemySpawner GetActiveSpawner()
+    {
+        List<SpawnerZone> activeZones = new List<SpawnerZone>();
+
+        foreach (var zone in zones)
+        {
+            if (zone.isActive)
+                activeZones.Add(zone);
+        }
+
+        if (activeZones.Count == 0)
+            return null;
+
+        SpawnerZone zoneToUse = activeZones[Random.Range(0, activeZones.Count)];
+        return zoneToUse.GetRandomSpawner();
     }
 
     public void ZombieDied()
@@ -73,8 +107,8 @@ public class WaveManager : MonoBehaviour
 
         if (zombiesAlive == 0 && zombiesLeftToSpawn == 0)
         {
-            // Start intermission
-            Invoke(nameof(StartNextWave), timeBetweenWaves);
+            isIntermission = true;
+            intermissionTimer = timeBetweenWaves;
         }
     }
 }

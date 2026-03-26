@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform[] pathWaypoints;
 
     [Header("Spawn Offset")]
-    public float yOffset = 0.5f;   // Adjust in Inspector
+    public float yOffset = 0.5f;
 
     public void SpawnEnemy()
     {
