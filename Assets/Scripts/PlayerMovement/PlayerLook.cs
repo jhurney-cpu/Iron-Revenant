@@ -2,7 +2,7 @@
 * File Name      : PlayerLook.cs
 * Author         : Noah Hurney
 * Creation Date  : March 5, 2026
-* Last Updated   : March 26, 2026
+* Last Updated   : April 16, 2026
 * Brief Description : Handles first-person camera rotation, including vertical
 *                     look, horizontal body rotation, and recoil effects.
 *****************************************************************************/
@@ -40,8 +40,22 @@ public class PlayerLook : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        // Ensure the Input System is initialized
+        if (InputSystem.actions == null)
+        {
+            Debug.LogError("InputSystem.actions is NULL. Check PlayerInput component.");
+            return;
+        }
+
         lookAction = InputSystem.actions.FindAction("Look");
-        lookAction?.Enable();
+
+        if (lookAction == null)
+        {
+            Debug.LogError("Look action NOT FOUND. Check your Input Actions asset.");
+            return;
+        }
+
+        lookAction.Enable();
     }
 
     /// <summary>
@@ -57,7 +71,8 @@ public class PlayerLook : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        lookInput = lookAction.ReadValue<Vector2>();
+        if (lookAction != null)
+            lookInput = lookAction.ReadValue<Vector2>();
     }
 
     /// <summary>
